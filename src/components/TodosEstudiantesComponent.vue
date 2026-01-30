@@ -1,7 +1,5 @@
 <template>
-    <div class="about-component">
-        <h2>Estudiantes</h2>
-        <button @click="consultarTodos">Consultar Todos Estudiantes</button>
+    <div class="students-component">
         <div v-if="estudiantes.length > 0" class="estudiantes-list">
             <h3>Lista de Estudiantes</h3>
             <table border="1">
@@ -9,14 +7,22 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Email</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Provincia</th>
+                        <th>Género</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="estudiante in estudiantes" :key="estudiante.id">
                         <td>{{ estudiante.id }}</td>
                         <td>{{ estudiante.name }}</td>
+                        <td>{{ estudiante.lastName }}</td>
                         <td>{{ estudiante.email }}</td>
+                        <td>{{ estudiante.birthDay ? estudiante.birthDay.replace('T', ' ').slice(0, 16) : '' }}</td>
+                        <td>{{ estudiante.province }}</td>
+                        <td>{{ estudiante.gender }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -43,11 +49,14 @@ export default {
         consultarPorId(id) {
             this.$emit('consultar-por-id', id);
         }
+    },
+    mounted() {
+        this.consultarTodos();
     }
 };
 </script>
 <style scoped>
-.about-component {
+.students-component {
     max-width: 900px;
     margin: 24px auto;
     padding: 20px;
