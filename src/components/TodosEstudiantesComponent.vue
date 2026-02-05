@@ -2,14 +2,14 @@
     <div class="students-component">
         <div v-if="estudiantes.length > 0" class="estudiantes-list">
             <h3>Lista de Estudiantes</h3>
-            <table border="1">
+            <table>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Email</th>
-                        <th>Fecha de Nacimiento</th>
+                        <th class="fecha-nac">Fecha de Nacimiento</th>
                         <th>Provincia</th>
                         <th>Género</th>
                     </tr>
@@ -20,7 +20,7 @@
                         <td>{{ estudiante.name }}</td>
                         <td>{{ estudiante.lastName }}</td>
                         <td>{{ estudiante.email }}</td>
-                        <td>{{ estudiante.birthDay ? estudiante.birthDay.replace('T', ' ').slice(0, 16) : '' }}</td>
+                        <td class="fecha-nac">{{ estudiante.birthDay ? estudiante.birthDay.split('T')[0] : '' }}</td>
                         <td>{{ estudiante.province }}</td>
                         <td>{{ estudiante.gender }}</td>
                     </tr>
@@ -67,31 +67,13 @@ export default {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h2 {
-    margin: 0 0 12px;
-    font-size: 24px;
-    color: #111827;
-}
-
 h3 {
-    margin: 16px 0 8px;
-    font-size: 18px;
-    color: #1f2937;
-}
-
-button {
-    background: #2563eb;
-    color: #ffffff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s ease;
-}
-
-button:hover {
-    background: #1d4ed8;
+    margin: 0 0 24px;
+    font-size: 20px;
+    color: #1e40af;
+    /* Dark blue */
+    text-align: center;
+    font-weight: 600;
 }
 
 .estudiantes-list {
@@ -100,33 +82,74 @@ button:hover {
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    background: #f9fafb;
-    border-radius: 8px;
-    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    background: #ffffff;
 }
 
 th,
 td {
-    padding: 10px 12px;
+    padding: 14px 16px;
     text-align: left;
-    border-bottom: 1px solid #e5e7eb;
     font-size: 14px;
+    vertical-align: middle;
 }
 
 th {
-    background: #f3f4f6;
-    color: #111827;
+    background: #dbeafe;
+    /* Light blue background */
+    color: #1e40af;
+    /* Dark blue text */
     font-weight: 600;
+    border-bottom: 2px solid #bfdbfe;
+    /* Medium blue border */
+}
+
+
+td {
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+}
+
+.fecha-nac {
+    text-align: center !important;
+}
+
+tr {
+    background: #ffffff;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 tbody tr:hover {
+    transform: translateY(-2px) scale(1.01);
     background: #eef2ff;
+    /* Lighter blue for hover */
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    /* Blue shadow */
+}
+
+tbody tr:first-child td:first-child {
+    border-top-left-radius: 8px;
+}
+
+tbody tr:first-child td:last-child {
+    border-top-right-radius: 8px;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
 }
 
 p {
     margin-top: 12px;
     color: #6b7280;
     font-size: 14px;
+    text-align: center;
 }
 </style>
