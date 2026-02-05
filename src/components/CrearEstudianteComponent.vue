@@ -61,7 +61,12 @@ export default {
     methods: {
         async crear() {
             try {
-                await MatriculaClient.crear(this.formulario);
+                const dataParaEnviar = { ...this.formulario };
+                // Si hay fecha, agregar hora 00:00:00
+                if (dataParaEnviar.birthDay) {
+                    dataParaEnviar.birthDay = `${dataParaEnviar.birthDay}T00:00:00`;
+                }
+                await MatriculaClient.crear(dataParaEnviar);
                 this.mensaje = 'Estudiante creado exitosamente';
                 this.tipo = 'exito';
                 this.formulario = { name: '', lastName: '', email: '', birthDay: '', province: '', gender: '' };

@@ -93,6 +93,10 @@ export default {
                 const dataFiltrada = Object.fromEntries(
                     Object.entries(data).filter(([_, v]) => v !== '')
                 );
+                // Si hay fecha, agregar hora 00:00:00
+                if (dataFiltrada.birthDay) {
+                    dataFiltrada.birthDay = `${dataFiltrada.birthDay}T00:00:00`;
+                }
                 await MatriculaClient.actualizarParcial(id, dataFiltrada);
                 this.mensaje = 'Estudiante actualizado exitosamente';
                 this.tipo = 'exito';

@@ -88,6 +88,10 @@ export default {
         async actualizar() {
             try {
                 const { id, ...data } = this.formulario;
+                // Si hay fecha, agregar hora 00:00:00
+                if (data.birthDay) {
+                    data.birthDay = `${data.birthDay}T00:00:00`;
+                }
                 await MatriculaClient.actualizar(id, data);
                 this.mensaje = 'Estudiante actualizado exitosamente';
                 this.tipo = 'exito';
