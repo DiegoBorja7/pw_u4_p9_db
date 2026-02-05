@@ -11,6 +11,7 @@ const login = async () => {
     });
     const { accessToken } = response.data;
     localStorage.setItem(TOKEN_KEY, accessToken);
+    console.log("Token obtenido y almacenado:", accessToken);
     return accessToken;
   } catch (error) {
     console.error("Error al obtener token:", error);
@@ -23,6 +24,7 @@ const getToken = () => {
 };
 
 const ensureToken = async () => {
+  // Usar token existente si hay, solo renovar si es necesario
   let token = getToken();
   if (!token) {
     token = await login();

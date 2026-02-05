@@ -16,7 +16,7 @@
             </div>
             <div class="form-group">
                 <label>Fecha de Nacimiento:</label>
-                <input v-model="formulario.birthDay" type="datetime-local" />
+                <input v-model="formulario.birthDay" type="date" />
             </div>
             <div class="form-group">
                 <label>Provincia:</label>

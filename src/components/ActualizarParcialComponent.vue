@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label>Fecha de Nacimiento (opcional):</label>
-                <input v-model="formulario.birthDay" type="datetime-local" />
+                <input v-model="formulario.birthDay" type="date" />
             </div>
             <div class="form-group">
                 <label>Provincia (opcional):</label>
@@ -75,7 +75,7 @@ export default {
                         name: estudiante.name || '',
                         lastName: estudiante.lastName || '',
                         email: estudiante.email || '',
-                        birthDay: estudiante.birthDay ? estudiante.birthDay.slice(0, 16) : '',
+                        birthDay: estudiante.birthDay ? estudiante.birthDay.split('T')[0] : '',
                         province: estudiante.province || '',
                         gender: estudiante.gender || ''
                     };

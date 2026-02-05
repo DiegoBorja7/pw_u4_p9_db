@@ -30,7 +30,7 @@
                     </div>
                     <div class="dato"><span>Email:</span> <b>{{ estudiante.email }}</b></div>
                     <div class="dato"><span>Fecha de Nacimiento:</span> <b>{{ estudiante.birthDay ?
-                        estudiante.birthDay.replace('T', ' ').slice(0, 16) : '' }}</b></div>
+                        estudiante.birthDay.split('T')[0] : '' }}</b></div>
                     <div class="dato"><span>Provincia:</span> <b>{{ estudiante.province }}</b></div>
                     <div class="dato"><span>Género:</span> <b>{{ estudiante.gender }}</b></div>
                 </div>

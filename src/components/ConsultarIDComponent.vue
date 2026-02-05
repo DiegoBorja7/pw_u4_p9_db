@@ -2,7 +2,7 @@
     <div class="consultar-id-component">
         <h3>Consultar por ID</h3>
         <div class="form-group">
-            <input v-model="id" type="number" placeholder="Ingresa el ID" @keyup.enter="buscar" />
+            <input v-model="id" type="number" placeholder="Ingresa el ID" @keyup.enter="buscar" @blur="buscar" />
             <button @click="buscar">Buscar</button>
         </div>
         <div v-if="estudiante" class="resultado">
@@ -12,7 +12,7 @@
             <p><strong>Apellido:</strong> {{ estudiante.lastName }}</p>
             <p><strong>Email:</strong> {{ estudiante.email }}</p>
             <p><strong>Género:</strong> {{ estudiante.gender }}</p>
-            <p><strong>Fecha de Nacimiento:</strong> {{ estudiante.birthDay }}</p>
+            <p><strong>Fecha de Nacimiento:</strong> {{ estudiante.birthDay ? estudiante.birthDay.split('T')[0] : '' }}</p>
             <p><strong>Provincia:</strong> {{ estudiante.province }}</p>
         </div>
         <div v-if="error" class="error">

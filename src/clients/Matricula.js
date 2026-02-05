@@ -5,6 +5,28 @@ const API_URL = "/api/v1/matricula/";
 const estudiantes = "estudiantes";
 const API_URL_estudiantes = API_URL + estudiantes;
 
+// Interceptor: Si recibe 401, renueva el token y reintenta
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Si es 401 y no hemos reintentado aún
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      // Obtener nuevo token
+      const newToken = await AuthClient.login();
+
+      // Actualizar header y reintentar
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
+      return axios(originalRequest);
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 const consultarTodos = async () => {
   try {
     const token = AuthClient.getToken();
