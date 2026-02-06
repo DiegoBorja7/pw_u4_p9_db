@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import EstudiantesView from "../views/EstudiantesView.vue";
 import ConsultarIDComponent from "../components/ConsultarIDComponent.vue";
@@ -47,6 +48,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+  },
 ];
 
 const router = createRouter({
@@ -57,12 +63,12 @@ const router = createRouter({
 //configurar guardia global para verificar autenticación
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  //const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
 
-  if (requiresAuth /*&& !token*/) {
+  if (requiresAuth && !token) {
     // Si necesita autorizacion, va al login
     console.log("Navegación a login");
-    //next({ name: "home" });
+    next({ name: "login" });
   } else {
     // De lo contrario, permitir navegación. Le deja sin validacion
     next();

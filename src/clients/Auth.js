@@ -3,11 +3,11 @@ import axios from "axios";
 const AUTH_URL = "/api/v1/auth/token";
 const TOKEN_KEY = "accessToken";
 
-const login = async () => {
+const login = async (user = "admin", password = "admin123") => {
   try {
     const response = await axios.post(AUTH_URL, {
-      user: "admin",
-      password: "admin123",
+      user,
+      password,
     });
     const { accessToken } = response.data;
     localStorage.setItem(TOKEN_KEY, accessToken);

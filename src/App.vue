@@ -1,6 +1,6 @@
 <template>
   <div v-if="ready">
-    <nav>
+    <nav v-if="$route.path !== '/login'">
       <router-link to="/">Home</router-link> |
       <router-link to="/estudiantes">Estudiantes</router-link>
     </nav>

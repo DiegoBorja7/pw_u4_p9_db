@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import TodosEstudiantesComponent from '@/components/TodosEstudiantesComponent.vue';
+import TodosEstudiantesComponent from '@/components/TodosEstudiantes.vue';
 import MatriculaClient from '@/clients/Matricula';
 
 export default {
