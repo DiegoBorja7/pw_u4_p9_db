@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
+import AuthClient from "../clients/Auth";
 import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import EstudiantesView from "../views/EstudiantesView.vue";
-import ConsultarIDComponent from "../components/ConsultarIDComponent.vue";
-import CrearEstudianteComponent from "../components/CrearEstudianteComponent.vue";
-import ActualizarEstudianteComponent from "../components/ActualizarEstudianteComponent.vue";
-import ActualizarParcialComponent from "../components/ActualizarParcialComponent.vue";
-import EliminarEstudianteComponent from "../components/EliminarEstudianteComponent.vue";
+import ConsultarID from "../components/ConsultarID.vue";
+import CrearEstudiante from "../components/CrearEstudiante.vue";
+import ActualizarEstudiante from "../components/ActualizarEstudiante.vue";
+import ActualizarParcial from "../components/ActualizarParcial.vue";
+import EliminarEstudiante from "../components/EliminarEstudiante.vue";
 
 const routes = [
   {
@@ -19,32 +20,32 @@ const routes = [
     path: "/estudiantes",
     name: "estudiantes",
     component: EstudiantesView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresRole: "ADMIN" },
     children: [
       {
         path: "consultar-por-id",
         name: "consultar-por-id",
-        component: ConsultarIDComponent,
+        component: ConsultarID,
       },
       {
         path: "crear",
         name: "crear-estudiante",
-        component: CrearEstudianteComponent,
+        component: CrearEstudiante,
       },
       {
         path: "actualizar",
         name: "actualizar-estudiante",
-        component: ActualizarEstudianteComponent,
+        component: ActualizarEstudiante,
       },
       {
         path: "actualizar-parcial",
         name: "actualizar-parcial",
-        component: ActualizarParcialComponent,
+        component: ActualizarParcial,
       },
       {
         path: "eliminar",
         name: "eliminar-estudiante",
-        component: EliminarEstudianteComponent,
+        component: EliminarEstudiante,
       },
     ],
   },
@@ -60,19 +61,38 @@ const router = createRouter({
   routes,
 });
 
-//configurar guardia global para verificar autenticación
+//configurar guardia global para verificar autenticación y roles
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresRole = to.matched.find((record) => record.meta.requiresRole)
+    ?.meta.requiresRole;
   const token = localStorage.getItem("accessToken");
 
+  // Verificar si necesita autenticación
   if (requiresAuth && !token) {
-    // Si necesita autorizacion, va al login
-    console.log("Navegación a login");
-    next({ name: "login" });
-  } else {
-    // De lo contrario, permitir navegación. Le deja sin validacion
-    next();
+    console.log("No autenticado. Redirigiendo a login");
+    return next({ name: "login" });
   }
+
+  // Verificar si necesita un rol específico
+  if (requiresRole && token) {
+    const hasRequiredRole = AuthClient.hasRole(requiresRole);
+
+    if (!hasRequiredRole) {
+      console.log(`Acceso denegado. Se requiere rol: ${requiresRole}`);
+      // Redirigir al home con mensaje de error
+      return next({
+        name: "home",
+        query: {
+          error: "access_denied",
+          message: `Se requiere rol de ${requiresRole.toLowerCase()}`,
+        },
+      });
+    }
+  }
+
+  // Permitir navegación
+  next();
 });
 
 export default router;
